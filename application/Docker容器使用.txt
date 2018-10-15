@@ -1,0 +1,11 @@
+更换国内镜像配置：
+vi /etc/docker/daemon.json
+{
+“registry-mirrors”: [“https://registry.docker-cn.com“]
+}
+
+重启Docker
+配置完之后执行下面的命令，以使docker的配置文件生效
+systemctl daemon-reload
+systemctl restart docker
+

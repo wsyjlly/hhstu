@@ -1,0 +1,59 @@
+设置火狐浏览器访问时的缓存清除
+about:config
+browser.cache.check_doc_frequency
+0:Once per session
+1:Each tiem
+2:Nerver 
+3:When appropriate/automatically
+
+分布式：一个业务分拆成多个子业务，或者本身就是不同的业务，部署在不同的服务器上。
+
+集群：同一个业务，部署在多个服务器上。
+
+负载均衡：利用多台服务器提供单一服务，这种方案有时也称之为服务器农场
+00-08-09-14-25-06
+
+
+http://toolkit.aliyun.com/eclipse/
+Alibaba Cloud Toolkit 使用指南
+Alibaba Cloud Toolkit for Eclipse（下文简称 Cloud Toolkit）是一个免费的 IDE 插件，帮助阿里云用户更高效的使用阿里云。
+您只需注册或使用一个已有的阿里云账号，即可免费下载 Cloud Toolkit。下载完成后，您可以将该插件安装到 Eclipse 中。
+当您在本地完成应用程序的开发、调试及测试后，通过该插件即可轻松将应用程序部署到阿里云。
+本文档将向您介绍如何在 Eclipse 中安装 Cloud Toolkit，并使用 Cloud Toolkit 快速部署一个应用。
+准备工作
+安装前，需要完成以下准备工作：
+    下载并安装 JDK 1.8 或更高版本。
+    下载并安装适用于 Java EE 开发人员的 Eclipse IDE、4.5.0（代号：Mars）或更高版本。
+    注册阿里云账号，并获得 AccessKey ID 和 Access Key Secret。
+
+安装 Cloud Toolkit
+    启动 Eclipse。
+    在菜单栏中选择 Help > Install New Software。
+    在 Available Software 对话框的 Work with 文本框中输入 Cloud Toolkit for Eclipse 的 URL http://toolkit.aliyun.com/eclipse/。
+    在下面的列表区域中勾选需要的组件 Alibaba Cloud Toolkit Core 和 Alibaba Cloud Toolkit Deployment Tools，并在下方 Details 区域中不勾选 Connect all update sites during install to find required software.
+
+    安装配置
+    配置完成后，单击 Next，Eclipse 开始安装插件，并显示安装进度。
+    安装进度
+    按照 Eclipse 安装页面的提示，完成后续安装步骤。
+插件安装成功后，重启 Eclipse，您可以在工具栏看到 Alibaba Cloud Toolkit 的图标。
+Alibaba Cloud Toolkit
+设置 Access Key ID 和 Access Key Secret
+    启动 Eclipse。
+    在工具栏单击 Alibaba Cloud Toolkit 图标右侧的下拉按钮，在下拉菜单中单击 Alibaba Cloud Preference...。
+    在 Preference (Filtered) 对话框的左侧导航栏中单击 Accounts。
+    在 Accounts 界面中设置 Access Key ID 和 Access Key Secret，然后单击确定。
+    账号设置
+        如果您已经注册过阿里云账号，在 Accounts 界面中单击 manage your existing Alibaba Cloud Serurity credentials，进入阿里云登录页面。用已有账号登录后，跳转至安全信息管理页面，获取 Access Key ID 和 Access Key Secret。
+        如果您还没有阿里云账号，在 Accounts 界面中单击单击 Sign up for a new Alibaba Cloud account，进入阿里云账号注册页面，注册账号。注册完成后按照上述方式获取 Access Key ID 和 Access Key Secret。
+
+部署应用
+
+    在 Eclipse 页面右键单击您的应用工程名，在弹出的下拉菜单中选择 Alibaba Cloud > Deploy to Cloud...。
+    在 Deployment Configuration 对话框设置部署参数，然后单击 Deploy，即可执行初次部署。
+    部署配置
+    部署参数说明：
+        Target Deploy ECS：在下拉列表中选择地域，然后在地域中选择要部署的 ECS 实例。
+        Deploy Location ：输入在 ECS 上部署路径，如 /root/tomcat/webapps。
+        Commond：输入应用启动命令，如 sh /root/restart.sh。
+    说明：在初次部署后，如果部署参数不变，后续您可以直接右键单击应用工程名并在弹出的下拉菜单中选择 Alibaba Cloud > Deploy to Cloud，完成快速部署。

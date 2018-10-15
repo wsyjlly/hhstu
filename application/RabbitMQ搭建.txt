@@ -1,0 +1,53 @@
+据说RabbitMQ是可以部署到Windows环境的，不过作为一个专业级的开发人员怎么能够让这样的事情发生呢？自然我们的准备工作从Linux开始。首先在虚拟机中安装CentOS 7，选择英文，最小安装，默认开启网络以及创建一个root用户：
+
+完成以后进入系统，由于最小安装有一些基本的命令无法使用，因此在进入一下步之前先将ifconfig、vim以及基本的编译环境准备好：
+https://bintray.com/rabbitmq/rpm
+
+
+<!-- 安装ifconfig -->
+yum install net-tools
+
+<!-- 安装vim -->
+yum install yum
+
+<!-- 准备基础编译环境 -->
+yum install gcc glibc-devel make ncurses-devel openssl-devel xmlto
+接下来我们从官网下载安装包rabbitmq-server-3.7.7-1.sles11.noarch.rpm和erlang-20.3.8.7-1.el7.centos.x86_64.rpm
+上传到虚拟机后执行命令：
+
+安装
+查看安装位置
+whereis erlang
+
+
+编译&安装完成以后配置Erlang环境变量：
+[root@MiWiFi-R3-srv otp_src_19.3]# vim /etc/profile
+#追加环境变量到文件末尾
+ERL_HOME=/usr/local/erlang
+PATH=$ERL_HOME/bin:$PATH
+export ERL_HOME PATH
+[root@MiWiFi-R3-srv otp_src_19.3]# source /etc/profile
+
+接下来可以正式安装RabbitMQ：
+[root@MiWiFi-R3-srv otp_src_19.3]# cd ..
+[root@MiWiFi-R3-srv ~]# rpm -ivh --nodeps rabbitmq-server-3.7.2-1.el7.noarch.rpm
+
+运行RabbitMQ需要首先开放15672和5672端口：
+[root@MiWiFi-R3-srv ~]# firewall-cmd --zone=public --add-port=15672/tcp --permanent
+[root@MiWiFi-R3-srv ~]# firewall-cmd --zone=public --add-port=5672/tcp --permanent
+[root@MiWiFi-R3-srv ~]# firewall-cmd --reload
+
+正常情况下RabbitMQ已经安装完成，最后测试一下：
+[root@MiWiFi-R3-srv ~]# rabbitmq-plugins enable rabbitmq_management
+[root@MiWiFi-R3-srv ~]# rabbitmq-server
+
+正常启动以后，我们可以在本地使用浏览器中访问管理页面：http://192.138.114.134:15672/
+  大功告成...
+至此，我们的准备工作已经完成了80%。接下来我们需要为RabbitMQ创建用户并赋权。
+[root@MiWiFi-R3-srv ~]# rabbitmqctl add_user root root
+[root@MiWiFi-R3-srv ~]# rabbitmqctl set_user_tags root administrator
+[root@MiWiFi-R3-srv ~]# rabbitmqctl set_permissions -p / root '.*' '.*' '.*'
+<!-- 后台启动 -->
+[root@MiWiFi-R3-srv ~]# rabbitmq-server -detached
+停掉服务 rabbitmqctl stop
+重新通过在本地浏览器访问管理页面，输入用户名和密码。
